@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_attendance/models/user.dart';
 import 'package:smart_attendance/screens/wrapper.dart';
 import 'package:smart_attendance/services/auth.dart';
+import 'package:smart_attendance/shared/constants.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
+          primarySwatch: kPrimaryColor,
         ),
         debugShowCheckedModeBanner: false,
         home: Wrapper(),
