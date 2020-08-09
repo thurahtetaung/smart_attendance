@@ -43,11 +43,13 @@ class DatabaseService {
   List<TimeTable> _timetableListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return TimeTable(
-          subject: doc.data['Subject'] ?? '',
-          period: doc.data['Period'] ?? 0,
-          room: doc.data['Room'] ?? '',
-          year: doc.data['Year'] ?? 0,
-          day: doc.data['Day'] ?? 0);
+        subject: doc.data['Subject'] ?? '',
+        period: doc.data['Period'] ?? 0,
+        room: doc.data['Room'] ?? '',
+        year: doc.data['Year'] ?? 0,
+        day: doc.data['Day'] ?? 0,
+        major: doc.data['Major'] ?? '',
+      );
     }).toList();
   }
 
@@ -71,6 +73,16 @@ class DatabaseService {
     );
   }
 
+  UserData2 _userData2FromSnapshot(DocumentSnapshot snapshot) {
+    return UserData2(
+      uid: uid,
+      name: snapshot.data['name'],
+      year: snapshot.data['year'],
+      major: snapshot.data['major'],
+      rollNumber: snapshot.data['roll'],
+    );
+  }
+
   // get brews stream
   Stream<List<Brew>> get brews {
     return brewCollection.snapshots().map(_brewListFromSnapshot);
@@ -83,5 +95,12 @@ class DatabaseService {
   // get user doc stream
   Stream<UserData> get userData {
     return brewCollection.document(uid).snapshots().map(_userDataFromSnapshot);
+  }
+
+  Stream<UserData2> get userData2 {
+    return studentCollection
+        .document(uid)
+        .snapshots()
+        .map(_userData2FromSnapshot);
   }
 }

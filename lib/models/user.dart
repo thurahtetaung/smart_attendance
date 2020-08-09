@@ -18,13 +18,11 @@ class UserData2 {
   final int year;
   final String major;
   final int rollNumber;
-  final String email;
 
   UserData2({
     this.uid,
     this.name,
     this.year,
-    this.email,
     this.major,
     this.rollNumber,
   });
