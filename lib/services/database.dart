@@ -6,6 +6,7 @@ import 'package:smart_attendance/models/user.dart';
 class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
+
   // collection reference
   final CollectionReference brewCollection =
       Firestore.instance.collection('brews');
@@ -76,10 +77,10 @@ class DatabaseService {
   UserData2 _userData2FromSnapshot(DocumentSnapshot snapshot) {
     return UserData2(
       uid: uid,
-      name: snapshot.data['name'],
-      year: snapshot.data['year'],
-      major: snapshot.data['major'],
-      rollNumber: snapshot.data['roll'],
+      name: snapshot.data['name'] ?? '',
+      year: snapshot.data['year'] ?? 0,
+      major: snapshot.data['major'] ?? '',
+      rollNumber: snapshot.data['roll'] ?? 0,
     );
   }
 
@@ -98,9 +99,15 @@ class DatabaseService {
   }
 
   Stream<UserData2> get userData2 {
-    return studentCollection
-        .document(uid)
-        .snapshots()
-        .map(_userData2FromSnapshot);
+    if (uid != null) {
+      return studentCollection
+          .document(uid)
+          .snapshots()
+          .map(_userData2FromSnapshot);
+    } else
+      return studentCollection
+          .document('test')
+          .snapshots()
+          .map(_userData2FromSnapshot);
   }
 }

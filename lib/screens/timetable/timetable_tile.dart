@@ -6,11 +6,11 @@ import 'package:smart_attendance/models/user.dart';
 class TimetableTile extends StatelessWidget {
   final TimeTable timetable;
   final int weekday;
-  TimetableTile({this.timetable, this.weekday});
+  final UserData2 userData2;
+  TimetableTile({this.timetable, this.weekday, this.userData2});
 
   @override
   Widget build(BuildContext context) {
-    final UserData2 userData2 = Provider.of<UserData2>(context);
     if (weekday == timetable.day && userData2.major == timetable.major) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),

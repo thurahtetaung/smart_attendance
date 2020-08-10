@@ -6,7 +6,7 @@ class Attendance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SideDrawer(),
+      // drawer: SideDrawer(),
       backgroundColor: kPrimaryLightColor[200],
       appBar: AppBar(
         title: Text('Smart Attendance'),

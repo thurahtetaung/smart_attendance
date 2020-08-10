@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_attendance/models/user.dart';
-import 'package:smart_attendance/screens/timetable/show_timetable.dart';
 import 'package:smart_attendance/screens/home/side_drawer.dart';
+import 'package:smart_attendance/screens/timetable/show_timetable.dart';
 import 'package:smart_attendance/services/database.dart';
 import 'package:smart_attendance/shared/constants.dart';
 
 class TimeTableBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final user = Provider.of<User>(context) ?? User(uid: null);
     return StreamProvider<UserData2>.value(
       value: DatabaseService(uid: user.uid).userData2,
       child: DefaultTabController(
         length: 5,
         child: Scaffold(
-          drawer: SideDrawer(),
+          // drawer: SideDrawer(),
           backgroundColor: kPrimaryLightColor[200],
           appBar: AppBar(
             bottom: TabBar(

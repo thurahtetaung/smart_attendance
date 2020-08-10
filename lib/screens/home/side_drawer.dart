@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_attendance/models/user.dart';
@@ -5,10 +6,10 @@ import 'package:smart_attendance/screens/attendance/attendance_screen.dart';
 import 'package:smart_attendance/screens/home/home.dart';
 import 'package:smart_attendance/screens/home/settings_form.dart';
 import 'package:smart_attendance/screens/timetable/timetable_screen.dart';
-import 'package:smart_attendance/screens/wrapper.dart';
 import 'package:smart_attendance/services/auth.dart';
 import 'package:smart_attendance/services/database.dart';
 import 'package:smart_attendance/shared/constants.dart';
+import '../wrapper.dart';
 
 class SideDrawer extends StatefulWidget {
   @override
@@ -31,17 +32,18 @@ class _SideDrawerState extends State<SideDrawer> {
           });
     }
 
-    final user = Provider.of<User>(context);
+    final user = Provider.of<User>(context) ?? User(uid: null);
 
     return StreamBuilder<UserData2>(
         stream: DatabaseService(uid: user.uid).userData2,
-        initialData: UserData2(name: '', major: ''),
         builder: (context, snapshot) {
-          UserData2 userData2 =
-              UserData2(name: 'Test', major: 'Test', year: 0, rollNumber: 0);
-          if (snapshot.hasData) {
-            userData2 = snapshot.data;
+          UserData2 userData2 = snapshot.data;
+
+          if (userData2 == null) {
+            userData2 = UserData2(
+                uid: '0', name: 'test', major: 'test', year: 0, rollNumber: 0);
           }
+
           return Drawer(
             // column holds all the widgets in the drawer
             child: Column(
@@ -70,9 +72,9 @@ class _SideDrawerState extends State<SideDrawer> {
                         ),
                         leading: Icon(Icons.home),
                         onTap: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                 builder: (context) => Home(),
                               ));
                         },
@@ -84,9 +86,9 @@ class _SideDrawerState extends State<SideDrawer> {
                         ),
                         leading: Icon(Icons.calendar_today),
                         onTap: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                 builder: (context) => TimeTableBody(),
                               ));
                         },
@@ -96,9 +98,9 @@ class _SideDrawerState extends State<SideDrawer> {
                           onTap: () async {
                             // await DatabaseService()
                             //     .addTimetableData('PLC', '10-3-6', 5, 5);
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                CupertinoPageRoute(
                                   builder: (context) => Attendance(),
                                 ));
                           },
@@ -136,7 +138,7 @@ class _SideDrawerState extends State<SideDrawer> {
                                   await _auth.signOut();
                                   Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(
+                                      CupertinoPageRoute(
                                         builder: (context) => Wrapper(),
                                       ));
                                 },
