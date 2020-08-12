@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_attendance/models/user.dart';
-import 'package:smart_attendance/screens/home/side_drawer.dart';
 import 'package:smart_attendance/screens/timetable/show_timetable.dart';
 import 'package:smart_attendance/services/database.dart';
 import 'package:smart_attendance/shared/constants.dart';
@@ -18,6 +17,12 @@ class TimeTableBody extends StatelessWidget {
           // drawer: SideDrawer(),
           backgroundColor: kPrimaryLightColor[200],
           appBar: AppBar(
+            automaticallyImplyLeading: true,
+            leading: IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
             bottom: TabBar(
               tabs: [
                 Tab(

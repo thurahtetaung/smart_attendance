@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_attendance/models/timetable_model.dart';
+import 'package:smart_attendance/models/user.dart';
 import 'package:smart_attendance/screens/timetable/list_timetable.dart';
 import 'package:smart_attendance/services/database.dart';
 
@@ -24,10 +25,14 @@ class _ShowTimetableState extends State<ShowTimetable> {
   // ];
   @override
   Widget build(BuildContext context) {
+    final UserData2 userData2 =
+        Provider.of<UserData2>(context) ?? UserData2(major: 'EcE', year: 1);
     return StreamProvider<List<TimeTable>>.value(
       initialData: [],
-      value: DatabaseService().timetables,
-      child: ListTimetable(day),
+      value: DatabaseService(
+              day: day, major: userData2.major, year: userData2.year)
+          .daytimetables,
+      child: ListTimetable(),
     );
   }
 }

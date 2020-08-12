@@ -5,6 +5,7 @@ import 'package:smart_attendance/models/user.dart';
 import 'package:smart_attendance/screens/attendance/attendance_screen.dart';
 import 'package:smart_attendance/screens/home/home.dart';
 import 'package:smart_attendance/screens/home/settings_form.dart';
+import 'package:smart_attendance/screens/timetable/add_timetable.dart';
 import 'package:smart_attendance/screens/timetable/timetable_screen.dart';
 import 'package:smart_attendance/services/auth.dart';
 import 'package:smart_attendance/services/database.dart';
@@ -90,6 +91,20 @@ class _SideDrawerState extends State<SideDrawer> {
                               context,
                               CupertinoPageRoute(
                                 builder: (context) => TimeTableBody(),
+                              ));
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Edit Timetable',
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        leading: Icon(Icons.calendar_today),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => EditTimeTable(),
                               ));
                         },
                       ),

@@ -1,6 +1,6 @@
 class TimeTable {
   final String subject;
-  final int period;
+  dynamic period;
   final String major;
   final String room;
   final int year;
@@ -8,4 +8,8 @@ class TimeTable {
 
   TimeTable(
       {this.subject, this.period, this.room, this.year, this.day, this.major});
+
+  void editPeriod(dynamic period) {
+    this.period = '$period, ${period + 1}';
+  }
 }

@@ -5,7 +5,13 @@ import 'package:smart_attendance/models/user.dart';
 
 class DatabaseService {
   final String uid;
-  DatabaseService({this.uid});
+  final String major;
+  final int year;
+  final int period;
+  final String subject;
+  final int day;
+  DatabaseService(
+      {this.uid, this.major, this.period, this.year, this.subject, this.day});
 
   // collection reference
   final CollectionReference brewCollection =
@@ -14,9 +20,8 @@ class DatabaseService {
   final CollectionReference studentCollection =
       Firestore.instance.collection('students');
 
-  final Query timetableQuery = Firestore.instance
-      .collection('timetables')
-      .orderBy('Period', descending: false);
+  final Query timetableQuery =
+      Firestore.instance.collection('timetables').orderBy('Period');
 
   final CollectionReference timetableCollection =
       Firestore.instance.collection('timetables');
@@ -31,12 +36,19 @@ class DatabaseService {
   }
 
   Future addTimetableData(
-      String subject, String room, int period, int year) async {
+      {String subject,
+      String room,
+      int period,
+      int year,
+      String major,
+      int day}) async {
     return await timetableCollection.document().setData({
       'Subject': subject,
       'Room': room,
       'Period': period,
       'Year': year,
+      'Major': major,
+      'Day': day
     });
   }
 
@@ -90,7 +102,16 @@ class DatabaseService {
   }
 
   Stream<List<TimeTable>> get timetables {
-    return timetableCollection.snapshots().map(_timetableListFromSnapshot);
+    return timetableQuery.snapshots().map(_timetableListFromSnapshot);
+  }
+
+  Stream<List<TimeTable>> get daytimetables {
+    return timetableQuery
+        .where('Day', isEqualTo: day)
+        .where('Major', isEqualTo: major)
+        .where('Year', isEqualTo: year)
+        .snapshots()
+        .map(_timetableListFromSnapshot);
   }
 
   // get user doc stream
