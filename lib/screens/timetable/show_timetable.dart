@@ -7,14 +7,17 @@ import 'package:smart_attendance/services/database.dart';
 
 class ShowTimetable extends StatefulWidget {
   final int day;
-  ShowTimetable(this.day);
+  final int period;
+  ShowTimetable({this.day, this.period});
   @override
-  _ShowTimetableState createState() => _ShowTimetableState(this.day);
+  _ShowTimetableState createState() =>
+      _ShowTimetableState(day: this.day, period: this.period);
 }
 
 class _ShowTimetableState extends State<ShowTimetable> {
   int day;
-  _ShowTimetableState(this.day);
+  int period;
+  _ShowTimetableState({this.day, this.period});
   // List<TimeTable> timetable = [
   //   TimeTable(subject: 'AE', period: 1, room: 'L4', year: 5),
   //   TimeTable(subject: 'CA', period: 2, room: '10-6-6', year: 5),
@@ -32,7 +35,7 @@ class _ShowTimetableState extends State<ShowTimetable> {
       value: DatabaseService(
               day: day, major: userData2.major, year: userData2.year)
           .daytimetables,
-      child: ListTimetable(),
+      child: ListTimetable(period: period),
     );
   }
 }

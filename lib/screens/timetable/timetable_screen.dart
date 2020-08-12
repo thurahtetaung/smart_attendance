@@ -12,6 +12,8 @@ class TimeTableBody extends StatelessWidget {
     return StreamProvider<UserData2>.value(
       value: DatabaseService(uid: user.uid).userData2,
       child: DefaultTabController(
+        initialIndex:
+            (DateTime.now().weekday < 6) ? DateTime.now().weekday - 1 : 0,
         length: 5,
         child: Scaffold(
           // drawer: SideDrawer(),
@@ -48,11 +50,21 @@ class TimeTableBody extends StatelessWidget {
             elevation: 0,
           ),
           body: TabBarView(children: [
-            ShowTimetable(1),
-            ShowTimetable(2),
-            ShowTimetable(3),
-            ShowTimetable(4),
-            ShowTimetable(5),
+            ShowTimetable(
+              day: 1,
+            ),
+            ShowTimetable(
+              day: 2,
+            ),
+            ShowTimetable(
+              day: 3,
+            ),
+            ShowTimetable(
+              day: 4,
+            ),
+            ShowTimetable(
+              day: 5,
+            ),
           ]),
         ),
       ),

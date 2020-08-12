@@ -10,6 +10,6 @@ class TimeTable {
       {this.subject, this.period, this.room, this.year, this.day, this.major});
 
   void editPeriod(dynamic period) {
-    this.period = '$period, ${period + 1}';
+    this.period = '$period,${period + 1}';
   }
 }

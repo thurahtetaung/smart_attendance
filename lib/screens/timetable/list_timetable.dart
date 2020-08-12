@@ -7,18 +7,24 @@ import 'package:smart_attendance/screens/timetable/timetable_tile.dart';
 import 'package:smart_attendance/services/database.dart';
 
 class ListTimetable extends StatefulWidget {
+  final int period;
+  ListTimetable({this.period});
   @override
-  _ListTimetableState createState() => _ListTimetableState();
+  _ListTimetableState createState() => _ListTimetableState(period: this.period);
 }
 
 class _ListTimetableState extends State<ListTimetable> {
-  _ListTimetableState();
+  int period;
+  _ListTimetableState({this.period});
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context) ?? User(uid: null);
     final timetables = Provider.of<List<TimeTable>>(context) ?? [];
     List<TimeTable> testTimetables = timetables;
     List<TimeTable> dummy = [];
+    if (period != null) {
+      testTimetables.retainWhere((element) => element.period == period);
+    }
     if (testTimetables.length >= 2) {
       for (var i = 0; i < testTimetables.length; i++) {
         if (i != testTimetables.length - 1) {
