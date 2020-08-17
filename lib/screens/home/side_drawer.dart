@@ -57,7 +57,7 @@ class _SideDrawerState extends State<SideDrawer> {
                       Text('Name - ${userData2.name}'),
                       Text('Major - ${userData2.major}'),
                       Text('Year - ${userData2.year}'),
-                      Text('RollNo - ${userData2.rollNumber}'),
+                      Text('Roll No - ${userData2.rollNumber}'),
                     ],
                   ),
                   decoration: BoxDecoration(color: kPrimaryColor),
@@ -96,10 +96,10 @@ class _SideDrawerState extends State<SideDrawer> {
                       ),
                       ListTile(
                         title: Text(
-                          'Edit Timetable',
+                          'News',
                           style: TextStyle(fontSize: 17),
                         ),
-                        leading: Icon(Icons.calendar_today),
+                        leading: Icon(Icons.announcement),
                         onTap: () {
                           Navigator.push(
                               context,

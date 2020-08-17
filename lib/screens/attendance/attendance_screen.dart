@@ -5,8 +5,14 @@ import 'package:smart_attendance/screens/timetable/show_timetable.dart';
 import 'package:smart_attendance/services/database.dart';
 import 'package:smart_attendance/shared/constants.dart';
 
-class Attendance extends StatelessWidget {
+class Attendance extends StatefulWidget {
+  @override
+  _AttendanceState createState() => _AttendanceState();
+}
+
+class _AttendanceState extends State<Attendance> {
   final DateTime now = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context) ?? User(uid: null);
@@ -31,7 +37,7 @@ class Attendance extends StatelessWidget {
     }
     if (period == null) {
       period = 10;
-      free = true;
+      setState(() => free = true);
     }
     //print(period);
     return StreamProvider<UserData2>.value(

@@ -1,0 +1,41 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "timetables",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "Day",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "Major",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "Year",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "Period",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "timetables",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "Day",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "Period",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

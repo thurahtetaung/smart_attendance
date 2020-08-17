@@ -41,6 +41,54 @@ class _EditTimeTableState extends State<EditTimeTable> {
   var _periods = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   @override
   Widget build(BuildContext context) {
+    List yearOccurrence = [];
+    for (var v = 1; v <= 12; v++) {
+      DateTime dtNow = new DateTime.utc(
+          2020, v); // replace this for the month/date of your choosing
+      DateTime dtFirst =
+          new DateTime(dtNow.year, dtNow.month, 1); // first date in a month
+      DateTime dtLast =
+          new DateTime(dtNow.year, dtNow.month + 1, 0); // last date in a month
+
+      // we need to keep track of weekday occurrence in a month, a map looks suitable for this
+      Map<int, int> dayOccurrence = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0};
+
+      DateTime dtLoop = DateTime(dtFirst.year, dtFirst.month, dtFirst.day);
+      while (DateTime(dtLoop.year, dtLoop.month, dtLoop.day) !=
+          dtLast.add(new Duration(days: 1))) {
+        // weekday is the day of the week, from 1(Monday) to 7(Sunday)
+        switch (dtLoop.weekday) {
+          case 1:
+            dayOccurrence[1]++;
+            break;
+          case 2:
+            dayOccurrence[2]++;
+            break;
+          case 3:
+            dayOccurrence[3]++;
+            break;
+          case 4:
+            dayOccurrence[4]++;
+            break;
+          case 5:
+            dayOccurrence[5]++;
+            break;
+          case 6:
+            dayOccurrence[6]++;
+            break;
+          case 7:
+            dayOccurrence[7]++;
+            break;
+          default:
+            print("this should not happen");
+        }
+        dtLoop = dtLoop.add(new Duration(days: 1));
+      }
+
+      // log the results
+      // dayOccurrence.forEach((k, v) => print('$k : $v'));
+      yearOccurrence.add(dayOccurrence);
+    }
     final user = Provider.of<User>(context) ?? User(uid: null);
     return StreamProvider<UserData2>.value(
         value: DatabaseService(uid: user.uid).userData2,
