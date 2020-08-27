@@ -4,6 +4,7 @@ import 'package:smart_attendance/models/user.dart';
 import 'package:smart_attendance/screens/attendance/timetable_dummy/timetable/show_timetable_dummy.dart';
 import 'package:smart_attendance/services/database.dart';
 import 'package:smart_attendance/shared/constants.dart';
+import 'package:smart_attendance/shared/loading.dart';
 
 class Attendance extends StatefulWidget {
   @override
@@ -43,31 +44,42 @@ class _AttendanceState extends State<Attendance> {
     // print(period);
     return StreamProvider<UserData2>.value(
       value: DatabaseService(uid: user.uid).userData2,
-      child: Scaffold(
-        // drawer: SideDrawer(),
-        backgroundColor: kPrimaryLightColor[200],
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          leading: IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          title: Text('Attendance'),
-          centerTitle: true,
-          backgroundColor: kPrimaryColor,
-          elevation: 0,
-        ),
-
-        body: Column(
-          children: [
-            Expanded(
-              child: ShowTimetableDummy(
-                day: now.weekday,
-                period: period,
-              ),
+      child: DefaultTabController(
+        initialIndex: 0,
+        length: 2,
+        child: Scaffold(
+          // drawer: SideDrawer(),
+          backgroundColor: kPrimaryLightColor[200],
+          appBar: AppBar(
+            automaticallyImplyLeading: true,
+            leading: IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+            title: Text('Attendance'),
+            centerTitle: true,
+            backgroundColor: kPrimaryColor,
+            elevation: 0,
+            bottom: TabBar(
+              tabs: [
+                Tab(
+                  text: 'Today Attendance',
+                ),
+                Tab(
+                  text: 'Monthly Attendance',
+                )
+              ],
             ),
-          ],
+          ),
+
+          body: TabBarView(children: [
+            ShowTimetableDummy(
+              day: now.weekday,
+              period: period,
+            ),
+            Loading()
+          ]),
         ),
       ),
     );
