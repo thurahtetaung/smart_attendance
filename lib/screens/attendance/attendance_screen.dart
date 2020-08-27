@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_attendance/models/user.dart';
-import 'package:smart_attendance/screens/timetable/show_timetable.dart';
+import 'package:smart_attendance/screens/attendance/timetable_dummy/timetable/show_timetable_dummy.dart';
 import 'package:smart_attendance/services/database.dart';
 import 'package:smart_attendance/shared/constants.dart';
 
@@ -22,7 +22,7 @@ class _AttendanceState extends State<Attendance> {
       periods.add(TimeOfDay(hour: 8 + i, minute: 0));
     }
     // To check whether to show a class or not according to current time
-    bool free = now.weekday > 5 || (now.weekday == 3 && now.hour > 12);
+    // bool free = now.weekday > 5 || (now.weekday == 3 && now.hour > 12);
     double nowdouble = TimeOfDay.now().hour.toDouble() +
         TimeOfDay.now().minute.toDouble() / 60.0;
     int period;
@@ -35,11 +35,12 @@ class _AttendanceState extends State<Attendance> {
         break;
       }
     }
+
     if (period == null) {
       period = 10;
-      setState(() => free = true);
+      // setState(() => free = true);
     }
-    //print(period);
+    // print(period);
     return StreamProvider<UserData2>.value(
       value: DatabaseService(uid: user.uid).userData2,
       child: Scaffold(
@@ -58,14 +59,16 @@ class _AttendanceState extends State<Attendance> {
           elevation: 0,
         ),
 
-        body: free
-            ? Container(
-                child: Text('No class right now. You are free!'),
-              )
-            : ShowTimetable(
+        body: Column(
+          children: [
+            Expanded(
+              child: ShowTimetableDummy(
                 day: now.weekday,
                 period: period,
               ),
+            ),
+          ],
+        ),
       ),
     );
   }

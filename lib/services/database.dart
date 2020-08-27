@@ -53,7 +53,7 @@ class DatabaseService {
   }
 
   // timetable list from snapshot
-  List<TimeTable> _timetableListFromSnapshot(QuerySnapshot snapshot) {
+  List<TimeTable> timetableListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return TimeTable(
         subject: doc.data['Subject'] ?? '',
@@ -86,6 +86,22 @@ class DatabaseService {
     );
   }
 
+  // userData from snapshot
+  TimeTable timetableDataFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents
+        .map((doc) {
+          return TimeTable(
+              major: doc.data['Major'],
+              year: doc.data['Year'],
+              subject: doc.data['Subject'],
+              period: doc.data['Period'],
+              room: doc.data['Room'],
+              day: doc.data['Day']);
+        })
+        .toList()
+        .first;
+  }
+
   UserData2 _userData2FromSnapshot(DocumentSnapshot snapshot) {
     return UserData2(
       uid: uid,
@@ -102,7 +118,7 @@ class DatabaseService {
   }
 
   Stream<List<TimeTable>> get timetables {
-    return timetableQuery.snapshots().map(_timetableListFromSnapshot);
+    return timetableQuery.snapshots().map(timetableListFromSnapshot);
   }
 
   Stream<List<TimeTable>> get daytimetables {
@@ -111,7 +127,7 @@ class DatabaseService {
         .where('Major', isEqualTo: major)
         .where('Year', isEqualTo: year)
         .snapshots()
-        .map(_timetableListFromSnapshot);
+        .map(timetableListFromSnapshot);
   }
 
   // get user doc stream
