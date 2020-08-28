@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:smart_attendance/screens/attendance/attendance_services/show_attendance.dart';
+import 'package:smart_attendance/shared/constants.dart';
 
 class MonthlyAttendanceScreen extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _MonthlyAttendanceScreenState extends State<MonthlyAttendanceScreen> {
                   radius: 120,
                   lineWidth: 10,
                   percent: temp,
-                  progressColor: Colors.green,
+                  progressColor: kPrimaryColor,
                   circularStrokeCap: CircularStrokeCap.round,
                   animateFromLastPercent: true,
                   animation: true,

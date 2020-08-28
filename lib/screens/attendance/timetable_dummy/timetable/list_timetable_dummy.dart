@@ -58,6 +58,7 @@ class _ListTimetableState extends State<ListTimetableDummy> {
                 timetable: dummy[index],
                 userData2: userData2,
                 period: period,
+                index: index + 1,
               );
             },
           );

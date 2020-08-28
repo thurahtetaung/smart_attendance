@@ -38,6 +38,35 @@ class DatabaseService {
     });
   }
 
+  Future setDailyAttendance() async {
+    return await studentCollection
+        .document(uid)
+        .collection('daily_attendance')
+        .document('2020')
+        .setData({
+      '1': false,
+      '2': false,
+      '3': false,
+      '4': false,
+      '5': false,
+      '6': false,
+      '7': false,
+      '8': false,
+      '9': false,
+      '10': false,
+    });
+  }
+
+  Future updateDailyAttendance({int index}) async {
+    return await studentCollection
+        .document(uid)
+        .collection('daily_attendance')
+        .document('2020')
+        .updateData({
+      '$index': true,
+    });
+  }
+
   Future addTimetableData(
       {String subject,
       String room,
@@ -167,5 +196,20 @@ class DatabaseService {
           .document('test')
           .snapshots()
           .map(_userData2FromSnapshot);
+  }
+
+  Stream<DocumentSnapshot> get dailyAttendance {
+    if (uid != null) {
+      return studentCollection
+          .document(uid)
+          .collection('daily_attendance')
+          .document('2020')
+          .snapshots();
+    } else
+      return studentCollection
+          .document('test')
+          .collection('daily_attendance')
+          .document('2020')
+          .snapshots();
   }
 }

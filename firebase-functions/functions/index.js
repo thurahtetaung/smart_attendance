@@ -121,3 +121,9 @@ exports.timetableCalendar = functions.firestore.document('/timetables/{id}').onC
 
 }
 );
+
+
+exports.dailyReset = functions.pubsub.schedule('0 0 * * *').timeZone('Asia/Yangon').onRun((context) => {
+  console.log('This is ran everyday at 12am MM time.');
+  return null;
+});
