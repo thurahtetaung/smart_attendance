@@ -27,3 +27,11 @@ class UserData2 {
     this.rollNumber,
   });
 }
+
+class AttendanceData {
+  final String uid;
+  final String subject;
+  final int attendance;
+
+  AttendanceData({this.uid, this.attendance, this.subject});
+}

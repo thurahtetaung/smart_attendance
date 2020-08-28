@@ -14,6 +14,9 @@ class DatabaseService {
       {this.uid, this.major, this.period, this.year, this.subject, this.day});
 
   // collection reference
+
+  final Query calendarQuery = Firestore.instance.collection('calendar2020');
+
   final CollectionReference brewCollection =
       Firestore.instance.collection('brews');
 
@@ -86,7 +89,7 @@ class DatabaseService {
     );
   }
 
-  // userData from snapshot
+  // timetableData from snapshot
   TimeTable timetableDataFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents
         .map((doc) {
@@ -112,6 +115,16 @@ class DatabaseService {
     );
   }
 
+  List<AttendanceData> _subjectnamesFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return AttendanceData(
+        uid: uid,
+        subject: doc.documentID,
+        attendance: 0,
+      );
+    }).toList();
+  }
+
   // get brews stream
   Stream<List<Brew>> get brews {
     return brewCollection.snapshots().map(_brewListFromSnapshot);
@@ -128,6 +141,14 @@ class DatabaseService {
         .where('Year', isEqualTo: year)
         .snapshots()
         .map(timetableListFromSnapshot);
+  }
+
+  Stream<List<AttendanceData>> get subjectnames {
+    return calendarQuery
+        .where('year', isEqualTo: year)
+        .where('major', isEqualTo: major)
+        .snapshots()
+        .map(_subjectnamesFromSnapshot);
   }
 
   // get user doc stream

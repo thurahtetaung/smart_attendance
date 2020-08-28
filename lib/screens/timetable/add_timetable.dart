@@ -134,6 +134,10 @@ class _EditTimeTableState extends State<EditTimeTable> {
                                 fontWeight: FontWeight.w300, fontSize: 16),
                           ),
                           DropdownButton<int>(
+                            underline: Container(
+                              height: 1,
+                              color: Colors.transparent,
+                            ),
                             items: _years
                                 .map((int dropDownIntItem) =>
                                     DropdownMenuItem<int>(
@@ -172,6 +176,10 @@ class _EditTimeTableState extends State<EditTimeTable> {
                                 fontWeight: FontWeight.w300, fontSize: 16),
                           ),
                           DropdownButton<int>(
+                            underline: Container(
+                              height: 1,
+                              color: Colors.transparent,
+                            ),
                             items: _days
                                 .map((int dropDownIntItem) =>
                                     DropdownMenuItem<int>(
@@ -210,6 +218,10 @@ class _EditTimeTableState extends State<EditTimeTable> {
                                 fontWeight: FontWeight.w300, fontSize: 16),
                           ),
                           DropdownButton<String>(
+                            underline: Container(
+                              height: 1,
+                              color: Colors.transparent,
+                            ),
                             items: _majors
                                 .map((String dropDownStringItem) =>
                                     DropdownMenuItem<String>(
@@ -248,6 +260,10 @@ class _EditTimeTableState extends State<EditTimeTable> {
                                 fontWeight: FontWeight.w300, fontSize: 16),
                           ),
                           DropdownButton<int>(
+                            underline: Container(
+                              height: 1,
+                              color: Colors.transparent,
+                            ),
                             items: _periods
                                 .map((int dropDownIntItem) =>
                                     DropdownMenuItem<int>(

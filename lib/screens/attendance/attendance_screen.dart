@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_attendance/models/user.dart';
+import 'package:smart_attendance/screens/attendance/monthly_attendance.dart';
 import 'package:smart_attendance/screens/attendance/timetable_dummy/timetable/show_timetable_dummy.dart';
 import 'package:smart_attendance/services/database.dart';
 import 'package:smart_attendance/shared/constants.dart';
-import 'package:smart_attendance/shared/loading.dart';
 
 class Attendance extends StatefulWidget {
   @override
@@ -78,7 +78,7 @@ class _AttendanceState extends State<Attendance> {
               day: now.weekday,
               period: period,
             ),
-            Loading()
+            MonthlyAttendanceScreen(),
           ]),
         ),
       ),

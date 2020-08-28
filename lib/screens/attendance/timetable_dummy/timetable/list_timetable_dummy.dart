@@ -38,6 +38,8 @@ class _ListTimetableState extends State<ListTimetableDummy> {
     } else {
       dummy = testTimetables;
     }
+    //Remove lunch break from attendance list since it is not needed.
+    dummy.removeWhere((element) => element.subject == 'Lunch Break');
 
     return StreamBuilder<UserData2>(
         stream: DatabaseService(uid: user.uid).userData2,

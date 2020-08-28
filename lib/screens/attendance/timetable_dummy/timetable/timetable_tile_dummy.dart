@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smart_attendance/models/timetable_model.dart';
 import 'package:smart_attendance/models/user.dart';
 
@@ -45,14 +46,18 @@ class TimetableTileDummy extends StatelessWidget {
                     icon: Icon(
                       Icons.event_available,
                     ),
-                    onPressed: !selected ? null : () {}),
-                IconButton(
-                    disabledColor: Colors.grey,
-                    color: Colors.red,
-                    icon: Icon(
-                      Icons.event_busy,
-                    ),
-                    onPressed: !selected ? null : () {}),
+                    onPressed: !selected
+                        ? null
+                        : () {
+                            Fluttertoast.showToast(
+                                msg: 'Attendance Marked Successfully!',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }),
               ],
             ),
             // trailing: Text('Room ( ${timetable.room} )'),
