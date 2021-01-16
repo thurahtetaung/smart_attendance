@@ -36,6 +36,9 @@ dependencies:
   intl: ^0.16.1
   percent_indicator: "^2.1.5"
   fluttertoast: ^7.0.2
+  camera: ^0.5.8+5
+  path_provider: ^1.6.14
+  path: ^1.7.0
 
 
 

@@ -9,8 +9,10 @@ class ShowAttendance extends StatefulWidget {
   final int period;
   ShowAttendance({this.day, this.period});
   @override
-  _ShowTimetableState createState() =>
-      _ShowTimetableState(day: this.day, period: this.period);
+  _ShowTimetableState createState() => _ShowTimetableState(
+        day: this.day,
+        period: this.period,
+      );
 }
 
 class _ShowTimetableState extends State<ShowAttendance> {
@@ -23,8 +25,7 @@ class _ShowTimetableState extends State<ShowAttendance> {
         Provider.of<UserData2>(context) ?? UserData2(major: 'EcE', year: 1);
     return StreamProvider<List<AttendanceData>>.value(
       initialData: [],
-      value: DatabaseService(major: userData2.major, year: userData2.year)
-          .subjectnames,
+      value: DatabaseService(uid: userData2.uid).attendancedata,
       child: ListAttendance(period: period),
     );
   }

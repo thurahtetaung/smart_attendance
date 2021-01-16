@@ -43,6 +43,8 @@ class AuthService {
       await DatabaseService(uid: user.uid)
           .updateUserData(name: name, major: major, roll: roll, year: year);
       await DatabaseService(uid: user.uid).setDailyAttendance();
+      await DatabaseService(uid: user.uid, major: major, year: year)
+          .setAttendanceForUser();
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

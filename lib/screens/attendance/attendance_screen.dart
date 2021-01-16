@@ -19,29 +19,32 @@ class _AttendanceState extends State<Attendance> {
     final user = Provider.of<User>(context) ?? User(uid: null);
     final List<TimeOfDay> periods = [];
     //creating a list of periods in time of day
-    for (var i = 0; i < 9; i++) {
+    for (var i = 0; i < 10; i++) {
       periods.add(TimeOfDay(hour: 8 + i, minute: 0));
     }
+    //print(periods);
     // To check whether to show a class or not according to current time
     // bool free = now.weekday > 5 || (now.weekday == 3 && now.hour > 12);
     double nowdouble = TimeOfDay.now().hour.toDouble() +
         TimeOfDay.now().minute.toDouble() / 60.0;
+    //print(nowdouble);
     int period;
     bool check = false;
     List<int> index = periods.asMap().keys.toList();
     for (var value in index) {
+      //print(periods[value].hour.toDouble());
       check = nowdouble < periods[value].hour.toDouble();
       if (check) {
         period = value;
         break;
       }
     }
+    //print(period);
 
     if (period == null) {
       period = 10;
       // setState(() => free = true);
     }
-    // print(period);
     return StreamProvider<UserData2>.value(
       value: DatabaseService(uid: user.uid).userData2,
       child: DefaultTabController(

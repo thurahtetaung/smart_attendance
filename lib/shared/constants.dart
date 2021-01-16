@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const kPrimaryColor = Colors.teal;
+const kPrimaryColor = Colors.indigo;
 const kPrimaryLightColor = Colors.grey;
 
 const textInputDecoration = InputDecoration(

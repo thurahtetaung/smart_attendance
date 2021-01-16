@@ -15,8 +15,6 @@ class DatabaseService {
 
   // collection reference
 
-  final Query calendarQuery = Firestore.instance.collection('calendar2020');
-
   final CollectionReference brewCollection =
       Firestore.instance.collection('brews');
 
@@ -55,6 +53,54 @@ class DatabaseService {
       '9': false,
       '10': false,
     });
+  }
+
+  Future<List<TimeTable>> getTimetableList() async {
+    QuerySnapshot timetableData = await Firestore.instance
+        .collection('timetables')
+        .where('Major', isEqualTo: major)
+        .where('Year', isEqualTo: year)
+        .getDocuments();
+    return timetableData.documents
+        .map((doc) => TimeTable(
+              subject: doc.data['Subject'],
+              period: doc.data['Period'],
+              room: doc.data['Room'],
+              year: doc.data['Year'],
+              day: doc.data['Day'],
+              major: doc.data['Major'],
+            ))
+        .toList();
+  }
+
+  Future setMonthlyAttendanceBySubject(String subjectName) async {
+    return await studentCollection
+        .document(uid)
+        .collection('monthly_attendance_2020')
+        .document(subjectName)
+        .setData({
+      'January': 0,
+      'February': 0,
+      'March': 0,
+      'April': 0,
+      'May': 0,
+      'June': 0,
+      'July': 0,
+      'August': 0,
+      'September': 0,
+      'October': 0,
+      'November': 0,
+      'December': 0,
+    });
+  }
+
+  Future setAttendanceForUser() async {
+    List<TimeTable> tt = await getTimetableList();
+    for (var i = 0; i < tt.length; i++) {
+      if (tt[i].subject != 'Lunch Break') {
+        setMonthlyAttendanceBySubject(tt[i].subject);
+      }
+    }
   }
 
   Future updateDailyAttendance({int index}) async {
@@ -144,12 +190,25 @@ class DatabaseService {
     );
   }
 
-  List<AttendanceData> _subjectnamesFromSnapshot(QuerySnapshot snapshot) {
+  List<AttendanceData> _attendanceFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return AttendanceData(
         uid: uid,
         subject: doc.documentID,
-        attendance: 0,
+        attendance: [
+          doc.data['January'],
+          doc.data['February'],
+          doc.data['March'],
+          doc.data['April'],
+          doc.data['May'],
+          doc.data['June'],
+          doc.data['July'],
+          doc.data['August'],
+          doc.data['September'],
+          doc.data['October'],
+          doc.data['November'],
+          doc.data['December'],
+        ],
       );
     }).toList();
   }
@@ -172,12 +231,12 @@ class DatabaseService {
         .map(timetableListFromSnapshot);
   }
 
-  Stream<List<AttendanceData>> get subjectnames {
-    return calendarQuery
-        .where('year', isEqualTo: year)
-        .where('major', isEqualTo: major)
+  Stream<List<AttendanceData>> get attendancedata {
+    return studentCollection
+        .document(uid)
+        .collection('monthly_attendance_2020')
         .snapshots()
-        .map(_subjectnamesFromSnapshot);
+        .map(_attendanceFromSnapshot);
   }
 
   // get user doc stream

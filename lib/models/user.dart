@@ -18,6 +18,7 @@ class UserData2 {
   final int year;
   final String major;
   final int rollNumber;
+  final List monthlyAttendance;
 
   UserData2({
     this.uid,
@@ -25,13 +26,14 @@ class UserData2 {
     this.year,
     this.major,
     this.rollNumber,
+    this.monthlyAttendance,
   });
 }
 
 class AttendanceData {
   final String uid;
   final String subject;
-  final int attendance;
+  final List attendance;
 
   AttendanceData({this.uid, this.attendance, this.subject});
 }
