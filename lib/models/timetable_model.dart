@@ -13,3 +13,12 @@ class TimeTable {
     this.period = '$period,${period + 1}';
   }
 }
+
+class Calendar {
+  final String subject;
+  final int year;
+  final String major;
+  final List<int> count;
+
+  Calendar({this.subject, this.year, this.major, this.count});
+}

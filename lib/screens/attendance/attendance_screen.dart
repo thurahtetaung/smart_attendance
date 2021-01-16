@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_attendance/models/timetable_model.dart';
 import 'package:smart_attendance/models/user.dart';
 import 'package:smart_attendance/screens/attendance/monthly_attendance.dart';
 import 'package:smart_attendance/screens/attendance/timetable_dummy/timetable/show_timetable_dummy.dart';
@@ -45,8 +46,20 @@ class _AttendanceState extends State<Attendance> {
       period = 10;
       // setState(() => free = true);
     }
-    return StreamProvider<UserData2>.value(
-      value: DatabaseService(uid: user.uid).userData2,
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<AttendanceData>>.value(
+          initialData: [],
+          value: DatabaseService(uid: user.uid).attendancedata,
+        ),
+        StreamProvider<List<Calendar>>.value(
+          initialData: [],
+          value: DatabaseService(uid: user.uid).calendarData,
+        ),
+        StreamProvider<UserData2>.value(
+          value: DatabaseService(uid: user.uid).userData2,
+        )
+      ],
       child: DefaultTabController(
         initialIndex: 0,
         length: 2,

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_attendance/models/timetable_model.dart';
 import 'package:smart_attendance/models/user.dart';
 import 'package:smart_attendance/screens/attendance/attendance_services/attendance_tile.dart';
 import 'package:smart_attendance/screens/attendance/monthly_attendance.dart';
@@ -23,7 +24,10 @@ class _ListAttendanceState extends State<ListAttendance> {
   @override
   Widget build(BuildContext context) {
     final subjects = Provider.of<List<AttendanceData>>(context) ?? [];
+    final calendarList = Provider.of<List<Calendar>>(context) ?? [];
     //Remove lunch break from attendance list since it is not needed.
+    if (calendarList.length == 11) calendarList.removeAt(6);
+
     // dummy.removeWhere((element) => element.subject == 'Lunch Break');
     // print('$subjects');
     return ListView.builder(
@@ -35,6 +39,7 @@ class _ListAttendanceState extends State<ListAttendance> {
           child: AttendanceTile(
             subject: subjects[index],
             period: period,
+            subcount: calendarList[index],
           ),
         );
       },

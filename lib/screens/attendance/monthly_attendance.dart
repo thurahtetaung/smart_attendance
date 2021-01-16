@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:smart_attendance/models/timetable_model.dart';
+import 'package:smart_attendance/models/user.dart';
 import 'package:smart_attendance/screens/attendance/attendance_services/show_attendance.dart';
 import 'package:smart_attendance/shared/constants.dart';
 
@@ -20,8 +23,24 @@ class MonthlyAttendanceScreenState extends State<MonthlyAttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final subjects = Provider.of<List<AttendanceData>>(context) ?? [];
+    final calendarList = Provider.of<List<Calendar>>(context) ?? [];
+
+    // Remmoving Lunch Break from list
+    //print(calendarList.length);
+    if (calendarList.length == 11) calendarList.removeAt(6);
+    List sum = [];
+    //print(calendarList[0].count.length);
+    for (int i = 0; i < calendarList[0].count.length; i++) {
+      double subatd = 0;
+      for (int j = 0; j < calendarList.length; j++) {
+        subatd += subjects[j].attendance[i] / calendarList[j].count[i];
+      }
+      sum.add(subatd / calendarList.length);
+    }
+    //print(sum);
     var random = new Random();
-    double temp = (random.nextDouble() + 0.7) / 2;
+    //double temp = (random.nextDouble() + 0.7) / 2;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -146,13 +165,13 @@ class MonthlyAttendanceScreenState extends State<MonthlyAttendanceScreen> {
                 child: CircularPercentIndicator(
                   radius: MediaQuery.of(context).size.width * 0.34,
                   lineWidth: 10,
-                  percent: temp,
+                  percent: sum[dp - 1],
                   progressColor: kPrimaryColor,
                   circularStrokeCap: CircularStrokeCap.round,
                   animateFromLastPercent: true,
                   animation: true,
                   center: Text(
-                    '${(temp * 100).round()}%',
+                    '${(sum[dp - 1] * 100).round()}%',
                     style: TextStyle(fontSize: 25),
                   ),
                 ),

@@ -27,6 +27,9 @@ class DatabaseService {
   final CollectionReference timetableCollection =
       Firestore.instance.collection('timetables');
 
+  final Query calendarCollection =
+      Firestore.instance.collection('calendar2020');
+
   Future updateUserData({String name, String major, int roll, int year}) async {
     return await studentCollection.document(uid).setData({
       'name': name,
@@ -190,6 +193,29 @@ class DatabaseService {
     );
   }
 
+  List<Calendar> _calendarFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents
+        .map((doc) => Calendar(
+                subject: doc.documentID,
+                major: doc.data['major'],
+                year: doc.data['year'],
+                count: [
+                  doc.data['jan'],
+                  doc.data['feb'],
+                  doc.data['mar'],
+                  doc.data['apr'],
+                  doc.data['may'],
+                  doc.data['jun'],
+                  doc.data['jul'],
+                  doc.data['aug'],
+                  doc.data['sep'],
+                  doc.data['oct'],
+                  doc.data['nov'],
+                  doc.data['dec'],
+                ]))
+        .toList();
+  }
+
   List<AttendanceData> _attendanceFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return AttendanceData(
@@ -270,5 +296,9 @@ class DatabaseService {
           .collection('daily_attendance')
           .document('2020')
           .snapshots();
+  }
+
+  Stream<List<Calendar>> get calendarData {
+    return calendarCollection.snapshots().map(_calendarFromSnapshot);
   }
 }
