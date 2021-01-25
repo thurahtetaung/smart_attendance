@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:smart_attendance/components/rounded_button.dart';
 import 'package:smart_attendance/services/auth.dart';
 import 'package:smart_attendance/shared/constants.dart';
 import 'package:smart_attendance/shared/loading.dart';
+import 'dart:io';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -24,6 +26,22 @@ class _RegisterState extends State<Register> {
   int year = 1;
   int roll = 1;
   String major = 'EcE';
+  final ImagePicker _picker = ImagePicker();
+  File _image;
+  Future getImage() async {
+    final pickedFile =
+        await _picker.getImage(source: ImageSource.camera, maxHeight: 480.0);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        //print(_image);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   var _majors = [
     'EcE',
     'C',
@@ -74,7 +92,7 @@ class _RegisterState extends State<Register> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 0,
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
@@ -110,6 +128,9 @@ class _RegisterState extends State<Register> {
                           Padding(padding: EdgeInsets.only(right: 1))
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
@@ -147,7 +168,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
@@ -174,7 +195,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
@@ -200,7 +221,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
@@ -227,7 +248,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
@@ -255,35 +276,58 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
+                    ),
+                    RoundedButton(
+                      text: 'Take Picture',
+                      press: getImage,
+                    ),
+                    SizedBox(
+                      height: 2,
                     ),
                     RoundedButton(
                       text: "Register",
                       press: () async {
+                        print(_image);
                         if (_formKey.currentState.validate()) {
                           setState(() {
                             loading = true;
                           });
-                          dynamic result =
-                              await _auth.registerWithEmailAndPassword(
-                                  email: email,
-                                  password: password,
-                                  name: name,
-                                  major: major,
-                                  year: year,
-                                  roll: roll);
+                          dynamic result;
+
+                          if (_image == null) {
+                            result = null;
+                          } else {
+                            result = await _auth.registerWithEmailAndPassword(
+                                email: email,
+                                password: password,
+                                name: name,
+                                major: major,
+                                year: year,
+                                roll: roll,
+                                img: _image);
+                          }
+
                           if (result == null) {
-                            setState(() {
-                              error =
-                                  'Could not register with those credentials.';
-                              loading = false;
-                            });
+                            if (_image == null) {
+                              setState(() {
+                                error =
+                                    'You need to take a picture to register.';
+                                loading = false;
+                              });
+                            } else {
+                              setState(() {
+                                error =
+                                    'Could not register with those credentials.';
+                                loading = false;
+                              });
+                            }
                           }
                         }
                       },
                     ),
                     SizedBox(
-                      height: 12,
+                      height: 8,
                     ),
                     Text(
                       error,

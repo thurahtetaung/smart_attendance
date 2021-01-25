@@ -116,6 +116,31 @@ class DatabaseService {
     });
   }
 
+  Future updateMonthlyAttendance({String subject}) async {
+    return await studentCollection
+        .document(uid)
+        .collection('monthly_attendance_2020')
+        .document(subject)
+        .updateData({
+      '${months[DateTime.now().month]}': FieldValue.increment(1),
+    });
+  }
+
+  var months = {
+    1: 'January',
+    2: 'February',
+    3: 'March',
+    4: 'April',
+    5: 'May',
+    6: 'June',
+    7: 'July',
+    8: 'August',
+    9: 'September',
+    10: 'October',
+    11: 'November',
+    12: 'December'
+  };
+
   Future addTimetableData(
       {String subject,
       String room,

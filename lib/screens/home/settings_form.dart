@@ -15,7 +15,7 @@ class _SettingsFormState extends State<SettingsForm> {
   final List<String> sugars = ['0', '1', '2', '3', '4'];
 
   //form values
-  String _currentName;
+  // String _currentName;
   String _currentSugars;
   int _currentStrength;
 
@@ -43,7 +43,7 @@ class _SettingsFormState extends State<SettingsForm> {
                     decoration: textInputDecoration,
                     validator: (val) =>
                         val.isEmpty ? 'Please enter a name' : null,
-                    onChanged: (val) => setState(() => _currentName = val),
+                    // onChanged: (val) => setState(() => _currentName = val),
                   ),
                   SizedBox(
                     height: 20,

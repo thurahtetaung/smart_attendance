@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -39,7 +37,7 @@ class MonthlyAttendanceScreenState extends State<MonthlyAttendanceScreen> {
       sum.add(subatd / calendarList.length);
     }
     //print(sum);
-    var random = new Random();
+    //var random = new Random();
     //double temp = (random.nextDouble() + 0.7) / 2;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

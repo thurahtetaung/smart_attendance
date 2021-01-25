@@ -117,13 +117,41 @@ exports.timetableCalendar = functions.firestore.document('/timetables/{id}').onC
 
 
     });
-
-
-}
+  
+  }
 );
 
 
-exports.dailyReset = functions.pubsub.schedule('0 0 * * *').timeZone('Asia/Yangon').onRun((context) => {
+exports.dailyReset = functions.pubsub.schedule('05 20 * * *').timeZone('Asia/Yangon').onRun((context) => {
   console.log('This is ran everyday at 12am MM time.');
-  return null;
+  const db = admin.firestore().collection("students");
+  console.log(db.doc('0'));
+  db.get().then(function(querySnapshot) {
+     return querySnapshot.forEach(function(doc) {
+
+        console.log(doc.data('name'));
+        // doc.data() is never undefined for query doc snapshots
+        doc.collection('daily_attendance').doc('2020').update(
+          {
+            '1': false,
+            '2': false,
+            '3': false,
+            '4': false,
+            '5': false,
+            '6': false,
+            '7': false,
+            '8': false,
+            '9': false,
+            '10': false,
+          }
+        );
+    });
+
+}).catch(() => {
+
+
+});
+
+ 
+
 });

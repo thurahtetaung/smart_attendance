@@ -1,10 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_attendance/models/timetable_model.dart';
 import 'package:smart_attendance/models/user.dart';
-import 'package:smart_attendance/screens/attendance/attendance_screen.dart';
 import 'package:smart_attendance/shared/constants.dart';
 
 class AttendanceTile extends StatefulWidget {

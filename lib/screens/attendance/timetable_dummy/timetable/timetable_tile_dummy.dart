@@ -1,25 +1,23 @@
-import 'package:camera/camera.dart';
+// import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smart_attendance/models/timetable_model.dart';
 import 'package:smart_attendance/models/user.dart';
-import 'package:smart_attendance/screens/attendance/mark_attendance.dart';
 import 'package:smart_attendance/services/database.dart';
-import 'package:smart_attendance/shared/loading.dart';
 
-Future<CameraDescription> initCamera() async {
-  WidgetsFlutterBinding.ensureInitialized();
+// Future<CameraDescription> initCamera() async {
+//   WidgetsFlutterBinding.ensureInitialized();
 
-  // Obtain a list of the available cameras on the device.
-  final cameras = await availableCameras();
+//   // Obtain a list of the available cameras on the device.
+//   final cameras = await availableCameras();
 
-  // Get a specific camera from the list of available cameras.
-  final firstCamera = cameras[1];
-  return firstCamera;
-  // print(cameras);
-}
+//   // Get a specific camera from the list of available cameras.
+//   final firstCamera = cameras[1];
+//   return firstCamera;
+//   // print(cameras);
+// }
 
 class TimetableTileDummy extends StatelessWidget {
   final TimeTable timetable;
@@ -75,24 +73,29 @@ class TimetableTileDummy extends StatelessWidget {
                           onPressed: (!selected || attended)
                               ? null
                               : () async {
-                                  CameraDescription camera = await initCamera();
-                                  print(camera);
-                                  Navigator.pushReplacement(
-                                      context,
-                                      CupertinoPageRoute(
-                                        builder: (context) =>
-                                            TakePictureScreen(camera: camera),
-                                      ));
-                                  // Fluttertoast.showToast(
-                                  //     msg: 'Attendance Marked Successfully!',
-                                  //     toastLength: Toast.LENGTH_SHORT,
-                                  //     gravity: ToastGravity.BOTTOM,
-                                  //     timeInSecForIosWeb: 1,
-                                  //     backgroundColor: Colors.green,
-                                  //     textColor: Colors.white,
-                                  //     fontSize: 16.0);
-                                  // DatabaseService(uid: userData2.uid)
-                                  //     .updateDailyAttendance(index: index);
+                                  // CameraDescription camera = await initCamera();
+                                  // print(camera);
+                                  // Navigator.pushReplacement(
+                                  //     context,
+                                  //     CupertinoPageRoute(
+                                  //       builder: (context) =>
+                                  //           TakePictureScreen(camera: camera),
+                                  //     ));
+                                  DatabaseService(uid: userData2.uid)
+                                      .updateDailyAttendance(index: index);
+
+                                  DatabaseService(uid: userData2.uid)
+                                      .updateMonthlyAttendance(
+                                          subject: timetable.subject);
+
+                                  Fluttertoast.showToast(
+                                      msg: 'Attendance Marked Successfully!',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.green,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
                                 }),
                     ],
                   ),
